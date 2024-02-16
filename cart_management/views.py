@@ -239,7 +239,7 @@ def cart_checkout(request):
                     request.session['total_price'] = total_price_str
                     return redirect('payment:home')
                 elif selected_payment_option == 'Wallet':
-                    user_wallet = Wallet.objects.get(user=request.user)
+                    user_wallet, created = Wallet.objects.get_or_create(user=request.user)
                     if user_wallet.balance >= total_price:
                 # Perform the wallet payment
                         user_wallet.balance -= total_price

@@ -152,7 +152,7 @@ def home(request):
     latest_products = Product.objects.filter(is_active=True).order_by('-id')[:3]
     return render(request,'home/home.html',{'banner':banner,'lp':latest_products})
 
-@login_required(login_url='home:signin')
+
 def shop(request):
     products = Product.objects.all()
     categories = Category.objects.all()
@@ -359,11 +359,11 @@ def change_password(request):
     
     return render(request, 'user_authentication/change_password.html')
 
-@login_required(login_url='home:signin')
+
 def about(request):
     return render(request,'home/about.html')
 
-@login_required(login_url='home:signin')
+
 def contact(request):
     return render(request,'home/contact.html')
 

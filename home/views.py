@@ -18,6 +18,8 @@ import time
 from django.db.models import Q
 from django.contrib.auth import authenticate, update_session_auth_hash
 from banner.models import Banner
+from .models import Enquiry
+
 
 # Create your views here.
 from django.contrib.auth import authenticate, login
@@ -365,3 +367,19 @@ def about(request):
 def contact(request):
     return render(request,'home/contact.html')
 
+def enquiry(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        subject = request.POST.get('subject')
+        message = request.POST.get('message')
+        # Assuming the user is logged in and you have access to the logged-in user
+
+        # Create an enquiry object and save it to the database
+        enquiry = Enquiry.objects.create( name=name, email=email, subject=subject, message=message)
+        # You might add some error handling here if the saving process fails
+
+        # Redirect the user to a thank you page or any other appropriate page
+        # return redirect('thank_you_page_url')
+
+    return render(request,'home/contact.html')

@@ -39,4 +39,5 @@ urlpatterns = [
     path('offer_management/', views.offer_management, name='offer_management'),
     path('add_offer', views.add_offer, name='add_offer'),
     path('delete_offer/<int:id>', views.delete_offer, name='delete_offer'),
+    path('search_users', views.search_users, name='search_users'),
 ]

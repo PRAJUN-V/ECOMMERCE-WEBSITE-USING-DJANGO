@@ -110,17 +110,6 @@
     <main class="main-wrap">
         <header class="main-header navbar">
             <div class="col-search">
-                <form class="searchform">
-                    <div class="input-group">
-                        <input list="search_terms" type="text" class="form-control" placeholder="Search term">
-                        <button class="btn btn-light bg" type="button"> <i class="material-icons md-search"></i></button>
-                    </div>
-                    <datalist id="search_terms">
-                            <option value="Product Management">
-                            <option value="Category Management">
-                            <option value="User Management">
-                    </datalist>
-                </form>
             </div>
             <div class="col-nav">
                 <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i class="material-icons md-apps"></i> </button>
@@ -139,6 +128,15 @@
                     <h2 class="content-title card-title">Users</h2>
                 </div>
             </div>
+            <div class="col-search">
+                <form class="searchform" method="get" action="{% url 'adminpage:search_users' %}">
+                    <div class="input-group">
+                        <input list="search_terms" type="text" class="form-control" name="q" value="{{ query }}" placeholder="Search term">
+                        <button class="btn btn-light bg" type="submit"> <i class="material-icons md-search"></i></button>
+                    </div>
+                </form>
+            </div>
+            <br>
             <div class="card mb-4">
                 <div class="card-body">
                     {% for u in  users%}

@@ -24,6 +24,7 @@ from django.db.models.functions import TruncWeek, TruncMonth, TruncYear
 from django.db.models.functions import TruncDate
 from offer.models import ProductOffer
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Q
 
 # Create your views here.
 # By using this only admin can access these pages
@@ -723,3 +724,22 @@ def delete_offer(request, id):
     # For example, rendering the offer management page again
     offers = ProductOffer.objects.all()
     return redirect('adminpage:offer_management')
+
+@user_passes_test(is_superuser, login_url='home:signin')
+def search_users(request):
+    query = request.GET.get('q')
+    users = User.objects.exclude(is_superuser=True).order_by('id')
+    
+    if query:
+        users = users.filter(
+            Q(username__icontains=query) | 
+            Q(first_name__icontains=query) |
+            Q(last_name__icontains=query) |
+            Q(email__icontains=query)
+        )
+
+    paginator = Paginator(users, 10)
+    page_number = request.GET.get('page')
+    users_page = paginator.get_page(page_number)
+    
+    return render(request, 'adminpage/user_management.html', {'users': users_page})

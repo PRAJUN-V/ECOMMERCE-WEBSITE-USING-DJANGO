@@ -5,7 +5,6 @@
     <title>FOOT PRIME</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link rel="apple-touch-icon" href="{% static "home/assets/img/apple-icon.png" %}">
     <link rel="shortcut icon" type="image/x-icon" href="{% static "home/images/logo1.png" %}">
 
@@ -35,6 +34,16 @@
         }
         
         </style>
+        <style>
+            /* Adjust font size */
+            .swal2-title {
+              font-size: 18px; /* You can adjust this value */
+            }
+        
+            .swal2-content {
+              font-size: 10px; /* You can adjust this value */
+            }
+          </style>
         </head>
 </head>
 <body>
@@ -230,7 +239,7 @@
     <script src="{% static "home/assets/js/templatemo.js" %}"></script>
     <script src="{% static "home/assets/js/custom.js" %}"></script>
     <!-- End Script -->
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
@@ -256,7 +265,7 @@
                     success: function(response){
                         // Check for errors
                         if (response.error) {
-                            alert(response.error);
+                            Swal.fire(response.error);
                             return; // Exit early if there's an error
                         }
                         // Update quantity for the specific item

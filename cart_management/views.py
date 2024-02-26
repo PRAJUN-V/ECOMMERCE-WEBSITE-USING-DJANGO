@@ -176,7 +176,7 @@ def cart_checkout(request):
             if selected_payment_option:
             # Process the selected payment option
                 if selected_payment_option == 'COD':
-                    if total_price <= 1000:
+                    if total_price <= 10000:
                         address = request.POST.get('address')
                         cart, created = Cart.objects.get_or_create(user=request.user)
                         print(cart)
@@ -225,7 +225,7 @@ def cart_checkout(request):
                         cart_item.delete()
                         return redirect('cart_management:order_confirmed')
                     else:
-                        messages.error(request, "COD not applicable for price greater than 1000") 
+                        messages.error(request, "COD not applicable for price greater than 10000") 
                         return redirect('cart_management:cart_checkout')
 
                 elif selected_payment_option == 'Paypal':

@@ -329,13 +329,9 @@ def searchbar(request):
 
     if request.method == 'POST':
         category = request.POST.get('category')
-        if category == 'all_shoes':
-            if query:
-                return render(request, 'shop/products_listing_page.html', {'products': products, 'categories': categories})
-            else:
-                return render(request, 'shop/products_listing_page.html', {'products': products, 'categories': categories})
-        elif category:
+        if category != "all shoes":
             products = products.filter(category__name=category)
+
 
     return render(request, 'shop/products_listing_page.html', {'products': products, 'categories': categories})
 

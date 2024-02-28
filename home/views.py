@@ -320,13 +320,24 @@ def product_details_varient(request, id, varient):
 
 def searchbar(request):
     categories = Category.objects.all()
-   
+    products = Product.objects.all()
+
     query = request.GET.get('q')
 
     if query:
-        products = Product.objects.filter(Q(title__icontains=query) | 
-                                          Q(category__name__icontains=query))
-    return render(request, 'shop/products_listing_page.html', {'products':products,'categories': categories})
+        products = products.filter(Q(title__icontains=query) | Q(category__name__icontains=query))
+
+    if request.method == 'POST':
+        category = request.POST.get('category')
+        if category == 'all_shoes':
+            if query:
+                return render(request, 'shop/products_listing_page.html', {'products': products, 'categories': categories})
+            else:
+                return render(request, 'shop/products_listing_page.html', {'products': products, 'categories': categories})
+        elif category:
+            products = products.filter(category__name=category)
+
+    return render(request, 'shop/products_listing_page.html', {'products': products, 'categories': categories})
 
 
 @login_required(login_url='home:signin')    

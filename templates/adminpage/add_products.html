@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Product</title>
+    <!-- Include Cropper CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.css">
     <!-- Include Bootstrap CSS from CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
@@ -112,6 +114,52 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <!-- Include Cropper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.11/cropper.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // Initialize cropper for main image
+            var image = document.getElementById('image');
+            var cropperMain = new Cropper(image, {
+                aspectRatio: 1100 / 1286,
+                viewMode: 2,
+                autoCropArea: 1,
+                cropBoxResizable: false,
+            });
+
+            
+
+            // Handle form submission
+            $('#productForm').submit(function (event) {
+                event.preventDefault();
+                var formData = new FormData(this);
+                
+                // Get cropped main image data
+                var mainImageData = cropperMain.getCroppedCanvas().toDataURL('image/jpeg');
+                formData.append('mainImage', mainImageData);
+
+                
+
+                // Now you can submit formData to your server using AJAX or other methods
+                // Example AJAX upload:
+                $.ajax({
+                    type: 'POST',
+                    url: '/upload', // Replace with your upload URL
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (response) {
+                        // Handle success response
+                    },
+                    error: function (error) {
+                        // Handle error
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

@@ -109,6 +109,13 @@ def cart_checkout(request):
     user_id = user.id
     address=UserAddress.objects.filter(user=user_id)
 
+    # Check stock before checkout
+    for item in cart_item:
+        product_variant = ProductVariant.objects.filter(product=item.product, size=item.size).first()
+        if product_variant is None or item.quantity > product_variant.quantity:
+            messages.error(request, f"Sorry, the requested quantity for {item.product.title} ({item.size}) is not available.")
+            return redirect('cart_management:cart')
+
     # Check if there's an applied coupon in the session
     applied_coupon_code = request.session.get('applied_coupon')
     if applied_coupon_code:
